@@ -32,6 +32,30 @@ class PostgresqlSettings(BaseSettings):
         password = quote_plus(self.POSTGRES_PASSWORD.get_secret_value())
         return f"postgresql+psycopg://{user}:{password}@{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
 
+# --- RABBITMQ ---
+class RabbitMQSettings(BaseSettings):
+    """
+    Configuration settings for rabbitmq
+    """
+
+    model_config = SettingsConfigDict(
+        env_file=".env", env_file_encoding="utf-8", case_sensitive=False, extra="ignore"
+    )
+
+    RABBITMQ_HOST: str = Field(default="rabbitmq")
+    RABBITMQ_AMQP_PORT: int = Field(default=5672)
+    RABBITMQ_DEFAULT_USER: str = Field(default="rabbitmq")
+    RABBITMQ_DEFAULT_PASS: SecretStr
+    RABBITMQ_DEFAULT_QUEUE: str = Field(default="education-hub-tasks")
+
+    @computed_field
+    @property
+    def rabbitmq_uri(self) -> str:
+        user = quote_plus(self.RABBITMQ_DEFAULT_USER)
+        password = quote_plus(self.RABBITMQ_DEFAULT_PASS.get_secret_value())
+        return (
+            f"amqp://{user}:{password}@{self.RABBITMQ_HOST}:{self.RABBITMQ_AMQP_PORT}/"
+        )
 
 # --- SETTINGS ---
 class Settings(BaseSettings):
@@ -55,6 +79,7 @@ class Settings(BaseSettings):
 
     postgres: PostgresqlSettings = Field(default_factory=lambda: PostgresqlSettings())
 
+    rabbitmq: RabbitMQSettings = Field(default_factory=lambda: RabbitMQSettings())
 
 @lru_cache()
 def get_settings() -> Settings:

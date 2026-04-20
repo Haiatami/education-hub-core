@@ -13,7 +13,8 @@ dependencies = [
     "pydantic-settings",
     "loguru",
     "psycopg[binary,pool]",
-    "sqlmodel"
+    "sqlmodel",
+    "aio_pika"
 ]
 
 [project.optional-dependencies]
