@@ -27,6 +27,8 @@ htmlcov/
 .ruff_cache/
 
 .env
+.env.*
+!.env.example
 
 .vscode/
 !.vscode/settings.json
@@ -36,3 +38,9 @@ htmlcov/
 
 .DS_Store
 Thumbs.db
+
+logs/
+*.log
+htmlcov/
+.coverage
+.coverage.*

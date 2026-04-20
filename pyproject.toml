@@ -10,7 +10,10 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "pydantic", 
-    "pydantic-settings"
+    "pydantic-settings",
+    "loguru",
+    "psycopg[binary,pool]",
+    "sqlmodel"
 ]
 
 [project.optional-dependencies]

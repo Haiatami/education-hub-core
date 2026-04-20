@@ -1,5 +1,10 @@
 .git
 .gitignore
+.github
+.gitlab-ci.yml
+
+logs/
+*.log
 
 __pycache__/
 *.py[cod]
